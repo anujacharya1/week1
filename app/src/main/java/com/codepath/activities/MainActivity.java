@@ -1,4 +1,4 @@
-package com.anuj;
+package com.codepath.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

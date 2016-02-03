@@ -1,4 +1,4 @@
-package com.anuj.week1;
+package com.codepath.week1;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

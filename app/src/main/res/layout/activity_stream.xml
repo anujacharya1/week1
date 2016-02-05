@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/profile_pic"
+        android:src="@drawable/profile_svg"
+        android:background="#C1CDCD"
+        app:riv_corner_radius="30dip"
+        app:riv_border_color="#333333"
+        app:riv_mutate_background="true"
+        app:riv_tile_mode="repeat"
+        app:riv_oval="true" />
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="#C1CDCD"
+        android:text="@string/username"
+        android:drawablePadding="8dp"
+        android:id="@+id/username"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/profile_pic"
+        android:layout_above="@+id/img"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#C1CDCD"
+        android:drawablePadding="10dp"
+        android:layout_above="@+id/img"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/timestamp"
+        android:id="@+id/timestamp" />
+
+    <ImageView
+        android:layout_below="@id/profile_pic"
+        android:layout_width="fill_parent"
+        android:background="#5F9F9F"
+        android:layout_height="300dp"
+        android:src="@drawable/insta_svg"
+        android:id="@+id/img" />
+
+    <!-- comment section -->
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_below="@id/img"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/comment_usr1_pic"
+        android:src="@drawable/profile_svg"
+        app:riv_oval="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:text="@string/comment1"
+        android:id="@+id/comment1"
+        android:background="#C0D9D9"
+        android:maxLines="1"
+        android:maxLength="50"
+        android:layout_weight="0.04"
+        android:layout_alignBottom="@+id/comment_usr1_pic"
+        android:layout_toRightOf="@+id/comment_usr1_pic"
+        android:layout_alignTop="@+id/comment_usr1_pic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        />
+
+</RelativeLayout>

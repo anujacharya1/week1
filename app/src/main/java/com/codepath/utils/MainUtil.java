@@ -5,5 +5,4 @@ package com.codepath.utils;
  */
 public class MainUtil {
 
-    public static final String KEY = "e05c462ebd86446ea48a5af73769b602";
 }

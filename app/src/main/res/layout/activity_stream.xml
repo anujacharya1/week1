@@ -51,6 +51,7 @@
         android:background="#5F9F9F"
         android:layout_height="300dp"
         android:src="@drawable/insta_svg"
+        android:adjustViewBounds="true"
         android:id="@+id/img" />
 
     <!-- comment section -->

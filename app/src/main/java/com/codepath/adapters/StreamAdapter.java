@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.models.InstagramResponse;
+import com.codepath.utils.DeviceDimensionsHelper;
 import com.codepath.week1.R;
 import com.squareup.picasso.Picasso;
 
@@ -47,19 +48,20 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse> {
 
         if(instagramResponse!=null){
             //username
-            tvName.setText(Html.fromHtml("<strong><b><font size='3' color='#236B8E'>"+instagramResponse.getUsername()+"</font></b></strong>"));
+            tvName.setText(Html.fromHtml("<strong><b><font size='3' color='#236B8E'>"
+                    +instagramResponse.getUsername()+"</font></b></strong>"));
 
             //image
             Picasso.with(getContext())
                     .load(instagramResponse.getUrl())
-                    .resize(640, 640)
+                    .resize( DeviceDimensionsHelper.getDisplayWidth(getContext()), 900)
                     .into(userUploadedImg);
 
             //profile_pic
             Picasso.with(getContext())
                     .load(instagramResponse.getProfilePic())
                     .resize(50, 50)
-                    .centerCrop()
+                    .noFade()
                     .into(profilePic);
 
 
@@ -67,16 +69,15 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse> {
                 //comment1
                 Picasso.with(getContext())
                         .load(instagramResponse.getComments().get(0).getProfilePic())
-                        .resize(10, 10)
-                        .centerCrop()
+                        .resize(20, 20)
+                        .centerInside()
                         .into(comment1ProfilePic);
             }
-//            comment1.setText(Html.fromHtml("<b>"+instagramResponse.getComments().get(0).getUsername()+": "+"</b>")
-//                                                + instagramResponse.getComments().get(0).getText());
 
-            comment1.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"+instagramResponse.getComments().get(0).getUsername()+"</font></b>"));
-            comment1.append(": "+instagramResponse.getComments().get(0).getText());
-
+            if(instagramResponse.getComments().size()>0){
+                comment1.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"+instagramResponse.getComments().get(0).getUsername()+"</font></b>"));
+                comment1.append(": "+instagramResponse.getComments().get(0).getText());
+            }
 
             //date
             long now = System.currentTimeMillis();

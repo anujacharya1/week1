@@ -1,5 +1,6 @@
 package com.codepath.impl;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -97,7 +98,7 @@ public class InstagramContentProvider implements IContentProvider {
     }
 
     @Override
-    public List<InstagramResponse> getPopularImages(final ArrayAdapter streamAdapter) {
+    public List<InstagramResponse> getPopularImages(final ArrayAdapter streamAdapter, final SwipeRefreshLayout swipeContainer) {
         AsyncHttpClient client = new AsyncHttpClient();
         try{
             client.get(URL, null, new JsonHttpResponseHandler() {
@@ -121,7 +122,9 @@ public class InstagramContentProvider implements IContentProvider {
                         streamAdapter.addAll(instagramResponses);
                         streamAdapter.notifyDataSetChanged();
 
-                        Log.i("INFO", "Size is ="+instagramResponses.size());
+                        swipeContainer.setRefreshing(false);
+
+                        Log.i("INFO", "Size is =" + instagramResponses.size());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

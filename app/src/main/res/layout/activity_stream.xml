@@ -48,7 +48,6 @@
     <ImageView
         android:layout_below="@id/profile_pic"
         android:layout_width="fill_parent"
-        android:background="#5F9F9F"
         android:layout_height="300dp"
         android:src="@drawable/insta_svg"
         android:adjustViewBounds="true"

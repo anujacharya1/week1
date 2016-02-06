@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <!-- comment section -->
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_below="@id/img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/comment_usr_pic"
+            android:src="@drawable/profile_svg"
+            app:riv_oval="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/comment1"
+            android:id="@+id/comment_usr_text"
+            android:background="#C0D9D9"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:layout_weight="0.01"
+            android:layout_toEndOf="@+id/comment_usr_pic"
+            android:layout_alignBottom="@+id/comment_usr_pic"
+            android:layout_toRightOf="@+id/comment_usr_pic"
+            android:layout_alignParentTop="true" />
+
+</RelativeLayout>

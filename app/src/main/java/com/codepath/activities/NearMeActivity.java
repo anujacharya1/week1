@@ -1,16 +1,26 @@
 package com.codepath.activities;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.codepath.adapters.CommentsAdapter;
 import com.codepath.adapters.StreamAdapter;
+import com.codepath.dialogs.CommentDialog;
 import com.codepath.impl.InstagramContentProvider;
 import com.codepath.interfaces.IContentProvider;
+import com.codepath.models.Comment;
 import com.codepath.models.InstagramResponse;
 import com.codepath.week1.R;
 
@@ -37,8 +47,45 @@ public class NearMeActivity extends AppCompatActivity {
 
         streamAdapter = new StreamAdapter(this, instagramResponses);
 
-        ListView listView = (ListView) findViewById(R.id.stream);
+        final ListView listView = (ListView) findViewById(R.id.stream);
         listView.setAdapter(streamAdapter);
+
+
+        Dialog dialog = new Dialog(NearMeActivity.this);
+        dialog.setContentView(R.layout.comment_main);
+
+        final ListView commentList = (ListView) findViewById(R.id.comment_lv);
+        dialog.setCancelable(true);
+        dialog.setTitle("Comments");
+
+        // showing the comments in the adapter
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InstagramResponse instagramResponse = (InstagramResponse)listView.getAdapter().getItem(position);
+
+                //setup adapter
+                ArrayList<Comment> comments = new ArrayList<>();
+                CommentsAdapter commentsAdapter = new CommentsAdapter(getApplicationContext(), comments);
+
+                final ListView listView = (ListView) findViewById(R.id.stream);
+                listView.setAdapter(commentsAdapter);
+
+                commentsAdapter.clear();
+                commentsAdapter.addAll(instagramResponse.getComments());
+                commentsAdapter.notifyDataSetChanged();
+
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction ft = manager.beginTransaction();
+                Fragment prev = manager.findFragmentByTag("COMMENT_DIALOG");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                // Create and show the dialog.
+                DialogFragment newFragment = CommentDialog.newInstance();
+                newFragment.show(ft, "COMMENT_DIALOG");
+            }
+        });
 
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -52,27 +99,11 @@ public class NearMeActivity extends AppCompatActivity {
                 getNearByImages(streamAdapter, swipeContainer);
             }
         });
-        getNearByImages(streamAdapter, swipeContainer);
-    }
 
-//    public void fetchTimelineAsync(int page) {
-//        // Send the network request to fetch the updated data
-//        // `client` here is an instance of Android Async HTTP
-//        client.getHomeTimeline(0, new JsonHttpResponseHandler() {
-//            public void onSuccess(JSONArray json) {
-//                // Remember to CLEAR OUT old items before appending in the new ones
-//                adapter.clear();
-//                // ...the data has come back, add new items to your adapter...
-//                adapter.addAll(...);
-//                // Now we call setRefreshing(false) to signal refresh has finished
-//                swipeContainer.setRefreshing(false);
-//            }
-//
-//            public void onFailure(Throwable e) {
-//                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
-//            }
-//        });
-//    }
+        // get near by images during the first run
+        getNearByImages(streamAdapter, swipeContainer);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

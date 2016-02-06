@@ -20,14 +20,14 @@ import java.util.ArrayList;
 /**
  * Created by anujacharya on 2/5/16.
  */
-public class StreamAdapter extends ArrayAdapter<InstagramResponse> {
+public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
 
     public StreamAdapter(Context context, ArrayList<InstagramResponse> instagramResponses) {
         super(context, 0, instagramResponses);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
         InstagramResponse instagramResponse = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
@@ -75,7 +75,8 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse> {
             }
 
             if(instagramResponse.getComments().size()>0){
-                comment1.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"+instagramResponse.getComments().get(0).getUsername()+"</font></b>"));
+                comment1.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"
+                        +instagramResponse.getComments().get(0).getUsername()+"</font></b>"));
                 comment1.append(": "+instagramResponse.getComments().get(0).getText());
             }
 
@@ -87,12 +88,30 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse> {
             time.setText(timeFormated.toString());
             time.setTextSize(10.0f);
         }
+        return convertView;
+
+        //TODO: Ask how to setup this
+//        comment1.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                ((ListView) parent).performItemClick(v, position, 0);
+//            }
+//        });
 
 
         //set the background of the image view
 
 
         // Return the completed view to render on screen
-        return convertView;
         }
-    }
+
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        long viewId = view.getId();
+//
+//        if (viewId == R.id.comment1) {
+//            Toast.makeText(getContext(), "Button 1 clicked", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+}

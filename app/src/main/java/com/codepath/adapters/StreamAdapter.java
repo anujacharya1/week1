@@ -124,6 +124,25 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
                     DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NO_NOON);
             holder.time.setText(timeFormated.toString());
             holder.time.setTextSize(10.0f);
+
+
+            holder.likeBtn2.setVisibility(View.VISIBLE);
+            holder.likeBtn3.setVisibility(View.INVISIBLE);
+            //like activeity
+            holder.likeBtn2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.likeBtn2.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.likeBtn2.setVisibility(View.INVISIBLE);
+                            holder.likeBtn3.setVisibility(View.VISIBLE);
+
+                        }
+                    }, 3);
+                }
+            });
+
         }
         return convertView;
     }
@@ -154,6 +173,12 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
         //time
         @Bind(R.id.timestamp)
         TextView time;
+
+        @Bind(R.id.like_sym_2)
+        ImageView likeBtn2;
+
+        @Bind(R.id.like_sym_3)
+        ImageView likeBtn3;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

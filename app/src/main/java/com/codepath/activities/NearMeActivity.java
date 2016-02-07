@@ -24,10 +24,12 @@ import com.codepath.week1.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 
 public class NearMeActivity extends AppCompatActivity {
 
-//    private StreamAdapter streamAdapter;
+    //    private StreamAdapter streamAdapter;
     private ArrayList<InstagramResponse> instagramResponses;
 
     private android.support.v4.widget.SwipeRefreshLayout swipeContainer;
@@ -38,6 +40,7 @@ public class NearMeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         //setup adapter
         instagramResponses = new ArrayList<>();
@@ -53,7 +56,7 @@ public class NearMeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // get the response
-                InstagramResponse instagramResponse = (InstagramResponse)listView.getAdapter().getItem(position);
+                InstagramResponse instagramResponse = (InstagramResponse) listView.getAdapter().getItem(position);
 
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction ft = manager.beginTransaction();
@@ -107,7 +110,7 @@ public class NearMeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private List<InstagramResponse> getNearByImages(ArrayAdapter streamAdapter, SwipeRefreshLayout swipeContainer){
+    private List<InstagramResponse> getNearByImages(ArrayAdapter streamAdapter, SwipeRefreshLayout swipeContainer) {
         IContentProvider contentProvider = new InstagramContentProvider();
         return contentProvider.getPopularImages(streamAdapter, swipeContainer);
     }

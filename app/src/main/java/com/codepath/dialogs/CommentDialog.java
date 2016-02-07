@@ -6,14 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 
 import com.codepath.week1.R;
 
 /**
  * Created by anujacharya on 2/5/16.
  */
-public class CommentDialog extends DialogFragment implements AdapterView.OnItemClickListener {
+public class CommentDialog extends DialogFragment {
 
 
     public static String TAG = "COMMENT_DIALOG";
@@ -36,8 +35,4 @@ public class CommentDialog extends DialogFragment implements AdapterView.OnItemC
         return view;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        getDialog().dismiss();
-    }
 }

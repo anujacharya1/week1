@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,15 +56,18 @@ public class NearMeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                setContentView(R.layout.comment_main);
+                //set content view to find list view
+//                setContentView(R.layout.comment_main);
 
+                View view1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.comment_main, parent, false);
+                // get the response
                 InstagramResponse instagramResponse = (InstagramResponse)listView.getAdapter().getItem(position);
 
                 //setup adapter
                 ArrayList<Comment> comments = new ArrayList<>();
                 CommentsAdapter commentsAdapter = new CommentsAdapter(getApplicationContext(), comments);
 
-                final ListView commentLstView = (ListView) findViewById(R.id.comment_lv);
+                final ListView commentLstView = (ListView) view1.findViewById(R.id.comment_lv);
                 commentLstView.setAdapter(commentsAdapter);
 
                 commentsAdapter.clear();

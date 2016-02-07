@@ -6,6 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ListView;
+
+import com.codepath.adapters.CommentsAdapter;
+import com.codepath.models.Comment;
+import com.codepath.models.InstagramResponse;
+import com.codepath.week1.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by anujacharya on 2/5/16.
@@ -13,30 +21,45 @@ import android.view.Window;
 public class CommentDialog extends DialogFragment {
 
 
-    View commentMain;
+    InstagramResponse instagramResponse;
 
     public static String TAG = "COMMENT_DIALOG";
 
     public CommentDialog(){
 
     }
-    public static CommentDialog newInstance(View commentMain) {
+    public static CommentDialog newInstance(InstagramResponse instagramResponse) {
         CommentDialog frag = new CommentDialog();
         Bundle args = new Bundle();
         frag.setArguments(args);
-        frag.setCommentMain(commentMain);
+        frag.setInstagramResponse(instagramResponse);
         return frag;
     }
 
-    private void setCommentMain(View commentMain) {
-        this.commentMain = commentMain;
+    private void setInstagramResponse(InstagramResponse instagramResponse) {
+        this.instagramResponse = instagramResponse;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setRetainInstance(true);
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        return commentMain;
+
+        View view1 = inflater.inflate(R.layout.comment_main, container, false);
+
+        //setup adapter
+        ArrayList<Comment> comments = new ArrayList<>();
+        CommentsAdapter commentsAdapter = new CommentsAdapter(getActivity(), comments);
+
+        ListView commentLstView = (ListView) view1.findViewById(R.id.comment_lv);
+        commentLstView.setAdapter(commentsAdapter);
+
+        commentsAdapter.clear();
+        commentsAdapter.addAll(instagramResponse.getComments());
+        commentsAdapter.notifyDataSetChanged();
+
+
+        return view1;
     }
 
 }

@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.codepath.adapters.CommentsAdapter;
 import com.codepath.adapters.StreamAdapter;
 import com.codepath.dialogs.CommentDialog;
 import com.codepath.impl.InstagramContentProvider;
 import com.codepath.interfaces.IContentProvider;
-import com.codepath.models.Comment;
 import com.codepath.models.InstagramResponse;
 import com.codepath.week1.R;
 
@@ -55,24 +52,8 @@ public class NearMeActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                //set content view to find list view
-//                setContentView(R.layout.comment_main);
-
-                View view1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.comment_main, parent, false);
                 // get the response
                 InstagramResponse instagramResponse = (InstagramResponse)listView.getAdapter().getItem(position);
-
-                //setup adapter
-                ArrayList<Comment> comments = new ArrayList<>();
-                CommentsAdapter commentsAdapter = new CommentsAdapter(getApplicationContext(), comments);
-
-                final ListView commentLstView = (ListView) view1.findViewById(R.id.comment_lv);
-                commentLstView.setAdapter(commentsAdapter);
-
-                commentsAdapter.clear();
-                commentsAdapter.addAll(instagramResponse.getComments());
-                commentsAdapter.notifyDataSetChanged();
 
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction ft = manager.beginTransaction();
@@ -81,7 +62,7 @@ public class NearMeActivity extends AppCompatActivity {
                     ft.remove(prev);
                 }
                 // Create and show the dialog.
-                DialogFragment newFragment = CommentDialog.newInstance(view1);
+                DialogFragment newFragment = CommentDialog.newInstance(instagramResponse);
                 newFragment.show(ft, "COMMENT_DIALOG");
             }
         });

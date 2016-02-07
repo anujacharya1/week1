@@ -79,4 +79,32 @@
         android:layout_alignParentEnd="true"
         />
 
+
+
+    <!--comment 2-->
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_below="@id/comment1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/comment_usr2_pic"
+        android:src="@drawable/profile_svg"
+        app:riv_oval="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:text="@string/comment2"
+        android:id="@+id/comment2"
+        android:background="#C0D9D9"
+        android:maxLines="1"
+        android:maxLength="50"
+        android:layout_weight="0.04"
+        android:layout_alignBottom="@+id/comment_usr2_pic"
+        android:layout_toRightOf="@+id/comment_usr2_pic"
+        android:layout_alignTop="@+id/comment_usr2_pic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        />
+
 </RelativeLayout>

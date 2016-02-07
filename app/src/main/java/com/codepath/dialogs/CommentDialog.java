@@ -1,7 +1,6 @@
 package com.codepath.dialogs;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +28,6 @@ public class CommentDialog extends DialogFragment implements AdapterView.OnItemC
         return frag;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //populate the adapter
-    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 //        setRetainInstance(true);

@@ -1,6 +1,5 @@
 package com.codepath.activities;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -51,25 +50,21 @@ public class NearMeActivity extends AppCompatActivity {
         listView.setAdapter(streamAdapter);
 
 
-        Dialog dialog = new Dialog(NearMeActivity.this);
-        dialog.setContentView(R.layout.comment_main);
-
-        final ListView commentList = (ListView) findViewById(R.id.comment_lv);
-        dialog.setCancelable(true);
-        dialog.setTitle("Comments");
-
         // showing the comments in the adapter
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                setContentView(R.layout.comment_main);
+
                 InstagramResponse instagramResponse = (InstagramResponse)listView.getAdapter().getItem(position);
 
                 //setup adapter
                 ArrayList<Comment> comments = new ArrayList<>();
                 CommentsAdapter commentsAdapter = new CommentsAdapter(getApplicationContext(), comments);
 
-                final ListView listView = (ListView) findViewById(R.id.stream);
-                listView.setAdapter(commentsAdapter);
+                final ListView commentLstView = (ListView) findViewById(R.id.comment_lv);
+                commentLstView.setAdapter(commentsAdapter);
 
                 commentsAdapter.clear();
                 commentsAdapter.addAll(instagramResponse.getComments());

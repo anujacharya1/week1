@@ -8,5 +8,6 @@
     <string name="username">username</string>
     <string name="timestamp">timestamp</string>
     <string name="cancel">cancel</string>
+    <string name="likes_count">likes_count</string>
 
 </resources>

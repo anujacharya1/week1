@@ -125,9 +125,17 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
             holder.time.setText(timeFormated.toString());
             holder.time.setTextSize(10.0f);
 
+            //likes
+
+            holder.likesCount.setText(Html.fromHtml("<strong><b><font color='#b80000'>"
+                    + instagramResponse.getLikes() + " likes</font></b></strong>"));
+            holder.likesCount.setTextSize(10.0f);
+
 
             holder.likeBtn2.setVisibility(View.VISIBLE);
             holder.likeBtn3.setVisibility(View.INVISIBLE);
+
+            final long incCount = instagramResponse.getLikes() + 1;
             //like activeity
             holder.likeBtn2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,10 +146,16 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
                             holder.likeBtn2.setVisibility(View.INVISIBLE);
                             holder.likeBtn3.setVisibility(View.VISIBLE);
 
+
+                            //change the like count
+                            holder.likesCount.setText(Html.fromHtml("<strong><b><font color='#b80000'>"
+                                    + incCount + " likes</font></b></strong>"));
+
                         }
                     }, 3);
                 }
             });
+
 
         }
         return convertView;
@@ -179,6 +193,9 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
 
         @Bind(R.id.like_sym_3)
         ImageView likeBtn3;
+
+        @Bind(R.id.likes_count)
+        TextView likesCount;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

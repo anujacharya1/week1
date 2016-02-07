@@ -30,8 +30,8 @@
         android:layout_toRightOf="@+id/profile_pic"
         android:layout_above="@+id/img"
         android:paddingLeft="10dp"
-        android:layout_toLeftOf="@+id/like_sym_2"
-        android:layout_toStartOf="@+id/like_sym_2" />
+        android:layout_toLeftOf="@+id/timestamp"
+        android:layout_toStartOf="@+id/timestamp" />
 
     <TextView
         android:gravity="center_vertical"
@@ -62,14 +62,28 @@
         android:layout_below="@+id/profile_pic"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/comment_usr1_pic"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/like_sym_2" />
+
+
+    <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/like_sym_2"
+        android:src="@drawable/like_sym_2"
+        android:background="#C1CDCD"
+        app:riv_corner_radius="30dip"
+        app:riv_border_color="#333333"
+        app:riv_mutate_background="true"
+        app:riv_tile_mode="repeat"
+        android:layout_below="@+id/img"
+        app:riv_oval="true" />
 
     <!-- comment section -->
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_below="@id/img"
+        android:layout_below="@id/like_sym_2"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:id="@+id/comment_usr1_pic"
@@ -118,28 +132,9 @@
         android:layout_alignParentEnd="true"
         />
 
-
     <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/like_sym_2"
-        android:src="@drawable/like_sym_2"
-        android:background="#C1CDCD"
-        app:riv_corner_radius="30dip"
-        app:riv_border_color="#333333"
-        app:riv_mutate_background="true"
-        app:riv_tile_mode="repeat"
-        app:riv_oval="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/timestamp"
-        android:layout_toStartOf="@+id/timestamp"
-
-        />
-
-
-    <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/like_sym_3"
         android:src="@drawable/like_sym_3"
         android:background="#C1CDCD"
@@ -148,8 +143,22 @@
         app:riv_mutate_background="true"
         app:riv_tile_mode="repeat"
         app:riv_oval="true"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/username" />
+        android:layout_below="@+id/img"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/likes_count"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:background="#C1CDCD"
+        android:id="@+id/likes_count"
+        android:layout_below="@+id/img"
+        android:layout_toRightOf="@+id/like_sym_2"
+        android:layout_above="@+id/comment_usr1_pic"
+        android:layout_alignRight="@+id/comment1"
+        android:layout_alignEnd="@+id/comment1" />
 
 </RelativeLayout>

@@ -2,7 +2,7 @@
 
 **Near Me** is an android app that allows a user to check out popular photos from Instagram. The app utilizes Instagram API to display images and basic image information to the user.
 
-Time spent: **40** hours spent in total
+Time spent: **30** hours spent in total
 
 ## User Stories
 
@@ -51,8 +51,8 @@ Challenges and something to explore:
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
--[RoundImage](com.makeramen:roundedimageview:2.2.1) - Round image view
--[Butterknife](com.jakewharton:butterknife:7.0.1) - Annotation based programming
+- [RoundImage](com.makeramen:roundedimageview:2.2.1) - Round image view
+- [Butterknife](com.jakewharton:butterknife:7.0.1) - Annotation based programming
 
 ## License
 

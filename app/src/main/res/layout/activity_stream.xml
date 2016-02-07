@@ -53,6 +53,17 @@
         android:adjustViewBounds="true"
         android:id="@+id/img" />
 
+    <VideoView
+        android:id="@+id/video"
+        android:layout_width="320px"
+        android:layout_height="240px"
+        android:layout_below="@+id/profile_pic"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/comment_usr1_pic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
     <!-- comment section -->
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -78,8 +89,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         />
-
-
 
     <!--comment 2-->
     <com.makeramen.roundedimageview.RoundedImageView

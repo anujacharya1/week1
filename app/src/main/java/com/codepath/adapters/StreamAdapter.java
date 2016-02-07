@@ -1,6 +1,7 @@
 package com.codepath.adapters;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -8,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.codepath.models.Comment;
 import com.codepath.models.InstagramResponse;
@@ -38,6 +41,7 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.username);
         ImageView userUploadedImg = (ImageView) convertView.findViewById(R.id.img);
+        final VideoView userUploadedVideo  = (VideoView) convertView.findViewById(R.id.video);
         ImageView profilePic = (ImageView)convertView.findViewById(R.id.profile_pic);
 
         //comment1
@@ -56,11 +60,32 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
             tvName.setText(Html.fromHtml("<strong><b><font size='3' color='#236B8E'>"
                     +instagramResponse.getUsername()+"</font></b></strong>"));
 
-            //image
-            Picasso.with(getContext())
-                    .load(instagramResponse.getUrl())
-                    .resize( DeviceDimensionsHelper.getDisplayWidth(getContext()), 900)
-                    .into(userUploadedImg);
+            // hide if it's image type
+            if(instagramResponse.getType().equalsIgnoreCase("image")){
+
+                // As video is overlaying the image
+                userUploadedVideo.setVisibility(View.INVISIBLE);
+                //image
+                Picasso.with(getContext())
+                        .load(instagramResponse.getUrl())
+                        .resize( DeviceDimensionsHelper.getDisplayWidth(getContext()), 900)
+                        .into(userUploadedImg);
+            }
+            else{
+                //video
+
+                userUploadedVideo.setVideoPath(instagramResponse.getUrl());
+                MediaController mediaController = new MediaController(getContext());
+                mediaController.setAnchorView(userUploadedVideo);
+                userUploadedVideo.setMediaController(mediaController);
+                userUploadedVideo.requestFocus();
+                userUploadedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    // Close the progress bar and play the video
+                    public void onPrepared(MediaPlayer mp) {
+                        userUploadedVideo.start();
+                    }
+                });
+            }
 
             //profile_pic
             Picasso.with(getContext())

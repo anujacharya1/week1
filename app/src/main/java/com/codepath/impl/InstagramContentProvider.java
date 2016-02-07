@@ -31,63 +31,66 @@ public class InstagramContentProvider implements IContentProvider {
         InstagramResponse instagramResponse = null;
         // Deserialize json into object fields
         try {
-            if(data.getString("type").equalsIgnoreCase("image")){
-                instagramResponse = new InstagramResponse();
-                instagramResponse.setCreatedTime(data.getString("created_time"));
-                instagramResponse.setType(data.getString("type"));
+            instagramResponse = new InstagramResponse();
+            instagramResponse.setCreatedTime(data.getString("created_time"));
+            instagramResponse.setType(data.getString("type"));
 
 
-                JSONObject user = data.getJSONObject("user");
-                instagramResponse.setUsername(user.getString("username"));
-                instagramResponse.setProfilePic(user.getString("profile_picture"));
+            JSONObject user = data.getJSONObject("user");
+            instagramResponse.setUsername(user.getString("username"));
+            instagramResponse.setProfilePic(user.getString("profile_picture"));
 
-                JSONObject images = data.getJSONObject("images");
-                JSONObject standardRes = images.getJSONObject("standard_resolution");
+            JSONObject imgOrVideo = null;
+            if(data.getString("type").equalsIgnoreCase("video")) {
+                imgOrVideo = data.getJSONObject("videos");
+            }
+            else{
+                imgOrVideo = data.getJSONObject("images");
+            }
+            JSONObject standardRes = imgOrVideo.getJSONObject("standard_resolution");
 
-                instagramResponse.setUrl(standardRes.getString("url"));
+            instagramResponse.setUrl(standardRes.getString("url"));
 
-                JSONObject likes = data.getJSONObject("likes");
-                instagramResponse.setLikes(Long.valueOf(likes.getString("count")));
+            JSONObject likes = data.getJSONObject("likes");
+            instagramResponse.setLikes(Long.valueOf(likes.getString("count")));
 
 
-                JSONObject captionI = data.getJSONObject("caption");
+            JSONObject captionI = data.getJSONObject("caption");
 
-                if(captionI!=null){
-                    Caption caption = new Caption();
+            if(captionI!=null){
+                Caption caption = new Caption();
 
-                    caption.setText(captionI.getString("text"));
+                caption.setText(captionI.getString("text"));
 
-                    JSONObject from = captionI.getJSONObject("from");
-                    caption.setUsername(from.getString("username"));
-                    caption.setProfilePic(from.getString("profile_picture"));
+                JSONObject from = captionI.getJSONObject("from");
+                caption.setUsername(from.getString("username"));
+                caption.setProfilePic(from.getString("profile_picture"));
 
-                    instagramResponse.setCaption(caption);
-                }
-
-                JSONObject commentI = data.getJSONObject("comments");
-
-                JSONArray commentDatas = commentI.getJSONArray("data");
-
-                List<Comment> comments = new ArrayList<>();
-
-                for(int i=0; i<commentDatas.length(); i++){
-
-                    JSONObject commentData = commentDatas.getJSONObject(i);
-
-                    Comment comment = new Comment();
-                    comment.setText(commentData.getString("text"));
-
-                    JSONObject from = commentData.getJSONObject("from");
-
-                    comment.setUsername(from.getString("username"));
-                    comment.setProfilePic(from.getString("profile_picture"));
-
-                    comments.add(comment);
-
-                }
-                instagramResponse.setComments(comments);
+                instagramResponse.setCaption(caption);
             }
 
+            JSONObject commentI = data.getJSONObject("comments");
+
+            JSONArray commentDatas = commentI.getJSONArray("data");
+
+            List<Comment> comments = new ArrayList<>();
+
+            for(int i=0; i<commentDatas.length(); i++){
+
+                JSONObject commentData = commentDatas.getJSONObject(i);
+
+                Comment comment = new Comment();
+                comment.setText(commentData.getString("text"));
+
+                JSONObject from = commentData.getJSONObject("from");
+
+                comment.setUsername(from.getString("username"));
+                comment.setProfilePic(from.getString("profile_picture"));
+
+                comments.add(comment);
+
+            }
+            instagramResponse.setComments(comments);
 
         } catch (JSONException e) {
             e.printStackTrace();

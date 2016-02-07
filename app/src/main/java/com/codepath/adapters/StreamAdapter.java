@@ -1,6 +1,9 @@
 package com.codepath.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -122,6 +125,13 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
             CharSequence timeFormated =  DateUtils.getRelativeTimeSpanString(
                     Long.valueOf(instagramResponse.getCreatedTime()) * 1000, now,
                     DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NO_NOON);
+
+
+            Drawable dr = getContext().getResources().getDrawable(R.drawable.clock);
+            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+            Drawable d = new BitmapDrawable(getContext().getResources(), Bitmap.createScaledBitmap(bitmap, 50, 50, true));
+
+            holder.time.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
             holder.time.setText(timeFormated.toString());
             holder.time.setTextSize(10.0f);
 

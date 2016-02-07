@@ -81,7 +81,7 @@ public class NearMeActivity extends AppCompatActivity {
                     ft.remove(prev);
                 }
                 // Create and show the dialog.
-                DialogFragment newFragment = CommentDialog.newInstance();
+                DialogFragment newFragment = CommentDialog.newInstance(view1);
                 newFragment.show(ft, "COMMENT_DIALOG");
             }
         });

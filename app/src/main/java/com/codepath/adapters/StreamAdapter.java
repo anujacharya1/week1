@@ -21,6 +21,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by anujacharya on 2/5/16.
  */
@@ -32,57 +35,47 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
+        final ViewHolder holder;
+
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
+        } else {
+            // Check if an existing view is being reused, otherwise inflate the view
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_stream, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        }
         // Get the data item for this position
         InstagramResponse instagramResponse = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_stream, parent, false);
-        }
-        // Lookup view for data population
-        TextView tvName = (TextView) convertView.findViewById(R.id.username);
-        ImageView userUploadedImg = (ImageView) convertView.findViewById(R.id.img);
-        final VideoView userUploadedVideo  = (VideoView) convertView.findViewById(R.id.video);
-        ImageView profilePic = (ImageView)convertView.findViewById(R.id.profile_pic);
-
-        //comment1
-        ImageView comment1ProfilePic = (ImageView)convertView.findViewById(R.id.comment_usr1_pic);
-        TextView comment1 = (TextView) convertView.findViewById(R.id.comment1);
-
-        //comment2
-        ImageView comment2ProfilePic = (ImageView)convertView.findViewById(R.id.comment_usr2_pic);
-        TextView comment2 = (TextView) convertView.findViewById(R.id.comment2);
-
-        //time
-        TextView time = (TextView) convertView.findViewById(R.id.timestamp);
 
         if(instagramResponse!=null){
             //username
-            tvName.setText(Html.fromHtml("<strong><b><font size='3' color='#236B8E'>"
+            holder.tvName.setText(Html.fromHtml("<strong><b><font size='3' color='#236B8E'>"
                     +instagramResponse.getUsername()+"</font></b></strong>"));
 
             // hide if it's image type
             if(instagramResponse.getType().equalsIgnoreCase("image")){
 
                 // As video is overlaying the image
-                userUploadedVideo.setVisibility(View.INVISIBLE);
+                holder.userUploadedVideo.setVisibility(View.INVISIBLE);
                 //image
                 Picasso.with(getContext())
                         .load(instagramResponse.getUrl())
                         .resize( DeviceDimensionsHelper.getDisplayWidth(getContext()), 900)
-                        .into(userUploadedImg);
+                        .into(holder.userUploadedImg);
             }
             else{
                 //video
 
-                userUploadedVideo.setVideoPath(instagramResponse.getUrl());
+                holder.userUploadedVideo.setVideoPath(instagramResponse.getUrl());
                 MediaController mediaController = new MediaController(getContext());
-                mediaController.setAnchorView(userUploadedVideo);
-                userUploadedVideo.setMediaController(mediaController);
-                userUploadedVideo.requestFocus();
-                userUploadedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                mediaController.setAnchorView(holder.userUploadedVideo);
+                holder.userUploadedVideo.setMediaController(mediaController);
+                holder.userUploadedVideo.requestFocus();
+                holder.userUploadedVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     // Close the progress bar and play the video
                     public void onPrepared(MediaPlayer mp) {
-                        userUploadedVideo.start();
+                        holder.userUploadedVideo.start();
                     }
                 });
             }
@@ -92,7 +85,7 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
                     .load(instagramResponse.getProfilePic())
                     .resize(50, 50)
                     .noFade()
-                    .into(profilePic);
+                    .into(holder.profilePic);
 
 
             if(instagramResponse.getComments().size()>0){
@@ -101,24 +94,26 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
                             .load(instagramResponse.getComments().get(0).getProfilePic())
                             .resize(20, 20)
                             .centerInside()
-                            .into(comment1ProfilePic);
+                            .into(holder.comment1ProfilePic);
 
-                    comment1.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"
+                holder.comment1.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"
                             +instagramResponse.getComments().get(0).getUsername()+"</font></b>"));
-                    comment1.append(": "+instagramResponse.getComments().get(0).getText());
+                holder.comment1.append(": " + instagramResponse.getComments().get(0).getText());
 
 
-                Comment comment2Obj= instagramResponse.getComments().get(1);
-                if(comment2Obj!=null){
-                    Picasso.with(getContext())
-                            .load(comment2Obj.getProfilePic())
-                            .resize(20, 20)
-                            .centerInside()
-                            .into(comment2ProfilePic);
+                if (instagramResponse.getComments().size() > 2) {
+                    Comment comment2Obj = instagramResponse.getComments().get(1);
+                    if (comment2Obj != null) {
+                        Picasso.with(getContext())
+                                .load(comment2Obj.getProfilePic())
+                                .resize(20, 20)
+                                .centerInside()
+                                .into(holder.comment2ProfilePic);
 
-                    comment2.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"
-                            +comment2Obj.getUsername()+"</font></b>"));
-                    comment2.append(": "+comment2Obj.getText());
+                        holder.comment2.setText(Html.fromHtml("<b><font size='1' color='#236B8E'>"
+                                + comment2Obj.getUsername() + "</font></b>"));
+                        holder.comment2.append(": " + comment2Obj.getText());
+                    }
                 }
             }
 
@@ -127,11 +122,43 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
             CharSequence timeFormated =  DateUtils.getRelativeTimeSpanString(
                     Long.valueOf(instagramResponse.getCreatedTime()) * 1000, now,
                     DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_NO_NOON);
-            time.setText(timeFormated.toString());
-            time.setTextSize(10.0f);
+            holder.time.setText(timeFormated.toString());
+            holder.time.setTextSize(10.0f);
         }
         return convertView;
+    }
 
+    static class ViewHolder {
+        @Bind(R.id.username)
+        TextView tvName;
+        @Bind(R.id.img)
+        ImageView userUploadedImg;
+        @Bind(R.id.video)
+        VideoView userUploadedVideo;
+
+        @Bind(R.id.profile_pic)
+        ImageView profilePic;
+
+        //comment1
+        @Bind(R.id.comment_usr1_pic)
+        ImageView comment1ProfilePic;
+        @Bind(R.id.comment1)
+        TextView comment1;
+
+        //comment2
+        @Bind(R.id.comment_usr2_pic)
+        ImageView comment2ProfilePic;
+        @Bind(R.id.comment2)
+        TextView comment2;
+
+        //time
+        @Bind(R.id.timestamp)
+        TextView time;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
         //TODO: Ask how to setup this
 //        comment1.setOnClickListener(new View.OnClickListener() {
 //
@@ -146,7 +173,7 @@ public class StreamAdapter extends ArrayAdapter<InstagramResponse>{
 
 
         // Return the completed view to render on screen
-        }
+
 
 //    @Override
 //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
